@@ -1,0 +1,38 @@
+@prefix brick: <https://brickschema.org/schema/1.0.3/Brick#> .
+@prefix tag: <https://brickschema.org/schema/1.0.3/BrickTag#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix base: <http://example.com#>.
+
+brick:hasTag a owl:ObjectProperty.
+tag:Sensor a owl:Class.
+tag:Temperature a owl:Class.
+
+brick:Temperature_Sensor a owl:Class ;
+    rdfs:subClassOf brick:Sensor ;
+    owl:equivalentClass [ owl:intersectionOf (
+        [
+            a owl:Restriction ;
+            owl:hasValue tag:Sensor ;
+            owl:onProperty brick:hasTag
+        ]
+        [
+            a owl:Restriction ;
+            owl:hasValue tag:Temperature ;
+            owl:onProperty brick:hasTag
+        ]
+    )
+    ] .
+
+brick:Sensor a owl:Class ;
+    owl:equivalentClass [
+        a owl:Restriction ;
+        owl:hasValue tag:Sensor ;
+        owl:onProperty brick:hasTag
+    ] .
+
+base:temp_sensor brick:hasTag tag:Sensor.
+base:temp_sensor brick:hasTag tag:Temperature.
+
+base:sensor brick:hasTag tag:Sensor.
